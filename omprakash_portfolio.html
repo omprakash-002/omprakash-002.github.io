@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omprakash M — Design Verification Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --surface2: #161b22;
+    --border: #21262d;
+    --accent: #00d4aa;
+    --accent2: #7c6af7;
+    --accent3: #f0883e;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --tag-bg: rgba(0,212,170,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,106,247,0.06) 0%, transparent 70%);
+    bottom: 0; left: 0;
+    pointer-events: none;
+  }
+  .hero-left { position: relative; z-index: 2; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,212,170,0.3);
+    padding: 0.35rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    background: rgba(0,212,170,0.05);
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  h1 span { color: var(--accent); }
+  .hero-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 1.2rem 0 2rem;
+    line-height: 1.8;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #080c10;
+    padding: 0.75rem 1.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #00f0c0; transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.75rem 1.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; justify-content: center;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .terminal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,212,170,0.1);
+  }
+  .terminal-bar {
+    background: var(--surface2);
+    padding: 0.6rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .terminal-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-left: auto;
+    letter-spacing: 0.05em;
+  }
+  .terminal-body { padding: 1.2rem 1.4rem; }
+  .t-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+  .t-line .prompt { color: var(--accent); }
+  .t-line .key { color: #7c6af7; }
+  .t-line .val { color: var(--text); }
+  .t-line .num { color: var(--accent3); }
+  .t-line .str { color: #a5d6ff; }
+
+  /* STATS */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    margin: 0;
+  }
+  .stat-item {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--surface2); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* SECTIONS */
+  section { padding: 5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: var(--tag-bg);
+    border: 1px solid rgba(0,212,170,0.2);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .section-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 2.5rem; }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .timeline-item:hover { border-color: rgba(0,212,170,0.3); transform: translateX(4px); }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -2.5rem; top: 1.6rem;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,170,0.15);
+  }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .exp-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+  .exp-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid rgba(0,212,170,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+  .exp-company { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.8rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.18rem; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover { border-color: var(--border); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .project-card:hover::before { opacity: 1; }
+  .project-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .project-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .project-desc { font-size: 0.82rem; color: #8b949e; line-height: 1.65; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    background: rgba(0,212,170,0.07);
+    border: 1px solid rgba(0,212,170,0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+  .tag.purple { color: var(--accent2); background: rgba(124,106,247,0.07); border-color: rgba(124,106,247,0.2); }
+  .tag.orange { color: var(--accent3); background: rgba(240,136,62,0.07); border-color: rgba(240,136,62,0.2); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+  }
+  .skill-group-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .skill-group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-pill {
+    font-size: 0.78rem;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 3px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ACHIEVEMENTS */
+  .achieve-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .achieve-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .achieve-card:hover { border-color: rgba(0,212,170,0.3); }
+  .achieve-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .achieve-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.3rem; }
+  .achieve-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* CODING */
+  .coding-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .coding-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.6rem;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .coding-card:hover { border-color: rgba(0,212,170,0.3); }
+  .coding-platform {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .coding-stat {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .coding-sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* CONTACT */
+  #contact-full {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-inner { max-width: 1200px; margin: 0 auto; padding: 5rem 2.5rem; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .contact-headline { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .contact-headline span { color: var(--accent); }
+  .contact-text { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-link-icon { font-size: 1rem; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+    .hero-right { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .coding-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem; }
+    .nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">OM // portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Awards</a></li>
+    <li><a href="#contact-full">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-left:5%; padding-right:5%;">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-left">
+    <div class="hero-tag">Available for Internships & Roles</div>
+    <h1>Omprakash<br><span>M</span></h1>
+    <p class="hero-subtitle">
+      Aspiring Design Verification Engineer<br>
+      ECE @ Chennai Institute of Technology '27<br>
+      UVM · SystemVerilog · RISC-V · VLSI
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:Omprakashmaran.002@gmail.com" class="btn-primary">Get in Touch</a>
+      <a href="https://github.com/omprakash-002" target="_blank" class="btn-outline">GitHub →</a>
+      <a href="https://linkedin.com/in/omprakashece" target="_blank" class="btn-outline">LinkedIn →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="terminal-card">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="terminal-title">omprakash.json</div>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="prompt">{</span></div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"name"</span>: <span class="str">"Omprakash M"</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="str">"Design Verification Engineer"</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"cgpa"</span>: <span class="num">8.75</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"batch"</span>: <span class="num">2027</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"leetcode_rating"</span>: <span class="num">1800</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"problems_solved"</span>: <span class="num">900</span><span class="prompt">+</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"specialization"</span>: [</div>
+        <div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"UVM"</span>, <span class="str">"SystemVerilog"</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"RISC-V"</span>, <span class="str">"VLSI"</span></div>
+        <div class="t-line">&nbsp;&nbsp;],</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="str">"open_to_work"</span> <span style="color:var(--accent)">✓</span></div>
+        <div class="t-line"><span class="prompt">}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">8.75</span>
+    <span class="stat-label">CGPA</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">3+</span>
+    <span class="stat-label">Internships</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1800</span>
+    <span class="stat-label">LeetCode Rating</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">Top 60</span>
+    <span class="stat-label">Lam Research India</span>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-tag">02 / Experience</span>
+    <div class="section-line"></div>
+  </div>
+  <h2>Work & Research</h2>
+  <p class="section-desc">Industry internships and research experience across hardware, automation, and AI/ML domains.</p>
+  <div class="timeline reveal">
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div class="exp-title">Research Intern — ECG Arrhythmia & VLSI</div>
+        <span class="exp-date">Apr – May 2025</span>
+      </div>
+      <div class="exp-company">Chennai Institute of Technology, Chennai</div>
+      <ul class="exp-bullets">
+        <li>Designed a dual-channel DS-CNN-SE-TA model for ECG heartbeat classification on MIT-BIH dataset</li>
+        <li>Achieved ~97% accuracy with a hardware-efficient low-power VLSI architecture</li>
+        <li>Converted the ML model to Verilog for ASIC testing; verified using unit and integrated testbenches</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div class="exp-title">Industrial Automation Intern</div>
+        <span class="exp-date">Dec 2024</span>
+      </div>
+      <div class="exp-company">Sun Industrial Automaton & Solutions Pvt. Ltd. — Perungudi, Chennai</div>
+      <ul class="exp-bullets">
+        <li>Hands-on experience with PLC, SCADA, and Automation Control Panels</li>
+        <li>Enhanced understanding of industrial workflows and automated process control</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div class="exp-title">Manufacturing Service IT Intern</div>
+        <span class="exp-date">Jul – Sep 2024</span>
+      </div>
+      <div class="exp-company">Nokia Solutions & Networks India Pvt. Ltd. — Oragadam, Chennai</div>
+      <ul class="exp-bullets">
+        <li>Worked on Surface Mounting Technology (SMT) and 5G Massive MIMO equipment</li>
+        <li>Assisted in custom vision technology initiatives to improve manufacturing processes</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div class="exp-title">Digital Verification Engineer Training</div>
+        <span class="exp-date">Ongoing</span>
+      </div>
+      <div class="exp-company">Maven Silicon</div>
+      <ul class="exp-bullets">
+        <li>Specialized training in Universal Verification Methodology (UVM) and SystemVerilog (SV)</li>
+        <li>Hands-on with industry tools like Siemens Questa for RTL simulation and debugging</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-tag">03 / Projects</span>
+    <div class="section-line"></div>
+  </div>
+  <h2>Featured Work</h2>
+  <p class="section-desc">Hardware design, verification, robotics, and AI/ML projects built during academic years.</p>
+  <div class="projects-grid reveal">
+
+    <div class="project-card">
+      <div class="project-icon">⚙️</div>
+      <div class="project-title">32-bit RISC-V Processor Design & Verification</div>
+      <div class="project-desc">Designed a 32-bit RISC-V processor with a 5-stage pipeline in SystemVerilog, including hazard handling and branch logic. Built a full SV testbench for instruction-level verification.</div>
+      <div class="project-tags">
+        <span class="tag">SystemVerilog</span>
+        <span class="tag">RISC-V</span>
+        <span class="tag purple">5-Stage Pipeline</span>
+        <span class="tag orange">RTL Design</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">🔁</div>
+      <div class="project-title">Asynchronous FIFO Design & Verification</div>
+      <div class="project-desc">Designed an Async FIFO using Gray-code pointers for cross-clock-domain data transfer. Built a SV testbench with constrained randomization and mailboxes to verify data integrity and status flags.</div>
+      <div class="project-tags">
+        <span class="tag">SystemVerilog</span>
+        <span class="tag purple">Gray-Code</span>
+        <span class="tag">UVM</span>
+        <span class="tag orange">CDC Verification</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">🧠</div>
+      <div class="project-title">ECG Arrhythmia Classification (AI + VLSI)</div>
+      <div class="project-desc">Built a CNN/CNN-LSTM model for ECG heartbeat classification on MIT-BIH. Implemented noise filtering, R-peak detection, and converted the model to Verilog for ASIC-level testing.</div>
+      <div class="project-tags">
+        <span class="tag purple">Deep Learning</span>
+        <span class="tag">Verilog</span>
+        <span class="tag orange">ASIC</span>
+        <span class="tag">Signal Processing</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">🤖</div>
+      <div class="project-title">ALFR & SARM Robotic Coordination System</div>
+      <div class="project-desc">Autonomous Line Follower Robot (ALFR) with sensor-driven obstacle detection, paired with a manually operated Single ARM Robot (SARM) on an omnidirectional platform for obstacle relay.</div>
+      <div class="project-tags">
+        <span class="tag orange">Robotics</span>
+        <span class="tag">Embedded</span>
+        <span class="tag purple">Sensor Fusion</span>
+        <span class="tag">Arduino</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">🔢</div>
+      <div class="project-title">4-bit Up/Down Loadable Counter</div>
+      <div class="project-desc">Developed a 4-bit Up/Down Loadable Counter in Verilog with custom boundary logic and synchronous load. Validated state transitions and boundary conditions using constrained randomization testbench.</div>
+      <div class="project-tags">
+        <span class="tag">Verilog</span>
+        <span class="tag orange">Digital Design</span>
+        <span class="tag purple">Constrained Random</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">💡</div>
+      <div class="project-title">16-bit RISC Processor Architecture</div>
+      <div class="project-desc">Designed a modular 16-bit RISC processor including ALU, control unit, register file, and memory blocks. Verified each module independently with top-level functional verification and randomized stimulus.</div>
+      <div class="project-tags">
+        <span class="tag">SystemVerilog</span>
+        <span class="tag purple">Processor Design</span>
+        <span class="tag orange">Verification</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-tag">04 / Skills</span>
+    <div class="section-line"></div>
+  </div>
+  <h2>Technical Stack</h2>
+  <p class="section-desc">A broad ECE toolkit covering hardware verification, embedded systems, programming, and AI/ML.</p>
+  <div class="skills-grid reveal">
+
+    <div class="skill-group">
+      <div class="skill-group-title">Verification Languages</div>
+      <div class="skill-pills">
+        <span class="skill-pill">SystemVerilog</span>
+        <span class="skill-pill">Verilog</span>
+        <span class="skill-pill">UVM</span>
+        <span class="skill-pill">C</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Verification Concepts</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Constrained Random</span>
+        <span class="skill-pill">Functional Coverage</span>
+        <span class="skill-pill">Assertions</span>
+        <span class="skill-pill">Scoreboarding</span>
+        <span class="skill-pill">STA</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">EDA Tools</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Synopsys</span>
+        <span class="skill-pill">Cadence</span>
+        <span class="skill-pill">Questasim</span>
+        <span class="skill-pill">Modelsim</span>
+        <span class="skill-pill">Xilinx</span>
+        <span class="skill-pill">LTspice</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Open Source Tools</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Yosys</span>
+        <span class="skill-pill">Icarus Verilog</span>
+        <span class="skill-pill">GTKWave</span>
+        <span class="skill-pill">OpenROAD</span>
+        <span class="skill-pill">OpenLane</span>
+        <span class="skill-pill">Magic</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Programming</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">C</span>
+        <span class="skill-pill">Shell Scripting</span>
+        <span class="skill-pill">Linux</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Embedded & IoT</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Arduino</span>
+        <span class="skill-pill">ESP32</span>
+        <span class="skill-pill">Raspberry Pi</span>
+        <span class="skill-pill">RISC-V</span>
+        <span class="skill-pill">PLC</span>
+        <span class="skill-pill">SCADA</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">CS Fundamentals</div>
+      <div class="skill-pills">
+        <span class="skill-pill">DSA</span>
+        <span class="skill-pill">OOPs</span>
+        <span class="skill-pill">OS</span>
+        <span class="skill-pill">Computer Networks</span>
+        <span class="skill-pill">MySQL</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">AI / ML</div>
+      <div class="skill-pills">
+        <span class="skill-pill">CNN</span>
+        <span class="skill-pill">LSTM</span>
+        <span class="skill-pill">Signal Processing</span>
+        <span class="skill-pill">MIT-BIH Dataset</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-header">
+    <span class="section-tag">05 / Achievements</span>
+    <div class="section-line"></div>
+  </div>
+  <h2>Awards & Certifications</h2>
+  <div class="achieve-grid reveal">
+
+    <div class="achieve-card">
+      <div class="achieve-icon">🏆</div>
+      <div>
+        <div class="achieve-title">Lam Research Challenge 2025 — National Finalist</div>
+        <div class="achieve-desc">Selected as one of the top 60 teams in India to compete in the Hardware Hustle final challenge.</div>
+      </div>
+    </div>
+
+    <div class="achieve-card">
+      <div class="achieve-icon">🎓</div>
+      <div>
+        <div class="achieve-title">Cisco Certifications</div>
+        <div class="achieve-desc">CCNA (Cisco Certified Network Associate), Data Science, Modern AI, and Python Essentials.</div>
+      </div>
+    </div>
+
+    <div class="achieve-card">
+      <div class="achieve-icon">📜</div>
+      <div>
+        <div class="achieve-title">NPTEL Certifications</div>
+        <div class="achieve-desc">Operating Systems, RTL Design, Industry 4.0 and IoT — completed with NPTEL.</div>
+      </div>
+    </div>
+
+    <div class="achieve-card">
+      <div class="achieve-icon">💼</div>
+      <div>
+        <div class="achieve-title">Eduskills — Embedded System Virtual Internship</div>
+        <div class="achieve-desc">Completed a virtual internship focused on embedded system design and implementation.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Coding Profiles -->
+  <h2 style="margin-top: 3rem; margin-bottom: 1.5rem;">Coding Profiles</h2>
+  <div class="coding-grid reveal">
+    <div class="coding-card">
+      <div class="coding-platform">LeetCode</div>
+      <div class="coding-stat">1800</div>
+      <div class="coding-sub">Rating · 300+ Problems</div>
+    </div>
+    <div class="coding-card">
+      <div class="coding-platform">CodeChef</div>
+      <div class="coding-stat">100+</div>
+      <div class="coding-sub">Problems Solved</div>
+    </div>
+    <div class="coding-card">
+      <div class="coding-platform">SkillRack</div>
+      <div class="coding-stat">500+</div>
+      <div class="coding-sub">Problems Solved</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact-full">
+  <div class="contact-inner">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-headline">Let's build<br><span>something real.</span></div>
+        <p class="contact-text">
+          I'm actively looking for internship and full-time opportunities in Design Verification, VLSI, and Embedded Systems. If you're working on something interesting, I'd love to connect.
+        </p>
+        <a href="mailto:Omprakashmaran.002@gmail.com" class="btn-primary" style="display:inline-block; text-decoration:none;">Send an Email →</a>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:Omprakashmaran.002@gmail.com" class="contact-link">
+          <span class="contact-link-icon">📧</span>
+          Omprakashmaran.002@gmail.com
+        </a>
+        <a href="tel:+919360426867" class="contact-link">
+          <span class="contact-link-icon">📱</span>
+          +91 93604 26867
+        </a>
+        <a href="https://linkedin.com/in/omprakashece" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          linkedin.com/in/omprakashece
+        </a>
+        <a href="https://github.com/omprakash-002" target="_blank" class="contact-link">
+          <span class="contact-link-icon">🐙</span>
+          github.com/omprakash-002
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Omprakash M &nbsp;·&nbsp; Built with HTML/CSS/JS &nbsp;·&nbsp; Chennai Institute of Technology ECE '27
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Typing cursor in terminal
+  const lastLine = document.querySelector('.terminal-body .t-line:last-child');
+  let show = true;
+  setInterval(() => {
+    show = !show;
+  }, 600);
+</script>
+</body>
+</html>
